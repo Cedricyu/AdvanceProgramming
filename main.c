@@ -1,156 +1,82 @@
+//
+//  main.c
+//  Learning and forgetting
+//
+//  Created by 游明睿 on 2021/4/21.
+//
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <stdbool.h>
-# define Stacksize 1000000
-//char maze[100][100];
-int dir[4][2] = {{1,0}, {0,1}, {-1,0}, {0,-1}};
-struct stack{
-    int top;
-    char elements[Stacksize];
-    //char dir[Stacksize];
-};
-typedef struct stack Stack;
-void init_stack(Stack *s){
-    s->top = 0;
-}
+#include <stdio.h>
 
-bool stackfull(Stack *s){
-    return (s->top >= Stacksize);
-}
 
-bool stackempty(Stack *s){
-    return (s->top <=0 );
-}
-
-void pushStack(Stack *s, char i){
-    if (stackfull(s)){
-        //printf("stack is full\n");
-        return ;
-    }
-    s->elements[s->top] = i;
-    s->top++;
-}
-
-char popStack(Stack *s){
-    s->top--;
-    return (s->elements[s->top]);
-}
-void print_stack(Stack *s){
-    for (int i=0;i<s->top;i++)
-        printf("stack %c\n",s->elements[i]);
-    printf("\n");
-    return;
-}
-bool check(int x, int y, int len, int wid){
-    //printf("x = %d y = %d\n",x,y);
-    if ( x<0 || x >= wid )
-        return false;
-    if ( y<0 || y >= len )
-        return false;
-    //printf("maze = %c\n", maze[x][y]);
-    return true;
-}
-/*
-bool can_move(Stack *s , char c, int len, int wid, char maze[len+1][wid+1],int cur_x, int cur_y,int direction){
-    if (c =='f'){
-        int nex_x = cur_x + dir[direction][0];
-        int nex_y = cur_y + dir[direction][1];
-        //printf("maze = %c\n", maze[nex_x][nex_y]);
-        //printf("x = %d y = %d\n",nex_x,nex_y);
-        if(check(nex_x, nex_y, len, wid,maze)){
-            return true;
-        }}
-    else if (c=='b'){
-        int nex_x = cur_x - dir[direction][0];
-        int nex_y = cur_y - dir[direction][1];
-       // printf("maze = %c\n", maze[nex_x][nex_y]);
-        //printf("x = %d y = %d\n",nex_x,nex_y);
-        if(check(nex_x, nex_y, len, wid, maze)){
-            return true;
-        }}
-    return false;
-}*/
-Stack copy_stack(Stack *s){
-    Stack n;
-    n.top = s->top;
-    for (int i=0;i<s->top;i++)
-        n.elements[i] = s->elements[i];
-    return n;
-}
-int main(){
-    
-    int len=0,wid=0;
-    scanf("%d %d", &len ,&wid);
-    char maze[len+1][wid+1];
-    
-    for (int i=0; i<len; i++)
-        scanf("%s", maze[i]);
-    struct stack move;
-    init_stack(&move);
-    char actions[20];
-    
-    //Stack tmp;
-    int direction =0;
-    //int cur_x=0,cur_y=0;
-    while (scanf("%s", actions)!=EOF){
-        int cur_x=0,cur_y=0;
-        int n = move.top;
-        direction = 0;
-        for (int i=0; i<n ; i++){
-            char k = move.elements[i];
-            if (k =='f'){
-                cur_x += dir[direction][0];
-                cur_y += dir[direction][1];
-            }
-                //pushStack(move,'f');
-            else if (k=='b'){
-                cur_x -= dir[direction][0];
-                cur_y -= dir[direction][1];
-            }
-                //pushStack(move,'b');
-            else if (k=='l'){
-                direction --;
-                if (direction < 0)
-                    direction +=4;
-            }
-                //pushStack(move,'r');
-            else if (k=='r'){
-                direction ++;
-                direction = direction % 4;
-            }}
-        if (strcmp(actions, "walk-forward")==0){
-            int nex_x = cur_x + dir[direction][0];
-            int nex_y = cur_y + dir[direction][1];
-            //printf("maze = %c\n", maze[nex_x][nex_y]);
-            //printf("x = %d y = %d\n",nex_x,nex_y);
-            if(check(nex_x, nex_y, len, wid)){
-                if (maze[nex_y][nex_x]!='#')
-                    pushStack(&move,'f');
-            }}
-        else if (strcmp(actions, "walk-backward")==0){
-            int nex_x = cur_x - dir[direction][0];
-            int nex_y = cur_y - dir[direction][1];
-           // printf("maze = %c\n", maze[nex_x][nex_y]);
-            //printf("x = %d y = %d\n",nex_x,nex_y);
-            if(check(nex_x, nex_y, len, wid)){
-                if (maze[nex_y][nex_x]!='#')
-                    pushStack(&move,'b');
-            }}
-        else if (strcmp(actions, "turn-right")==0)
-            pushStack(&move,'r');
-        else if (strcmp(actions, "turn-left")==0)
-            pushStack(&move,'l');
-        else if (strcmp(actions, "undo")==0){
-            if ( n>0)
-                popStack(&move);
+void trans(unsigned set){
+    //printf("succeed\n");
+    int i=0;
+    int count =0;
+    while ((1 << i)<=set){
+        if ((set & (1 << i))>0){
+            //printf("%u\n",set & ~(1 << i));
+            //printf("learn %d ",i);
+            count ++;
         }
-        //print_stack(&move);
-        else if (strcmp(actions, "docchi")==0){
-            printf("%d %d\n",cur_x,cur_y);
-        }
-        //free(&tmp);
+        i++;
     }
+    //printf("%d\n",i);
+    printf("%d\n",count);
+    return ;
+}
+
+int main(int argc, const char * argv[]) {
+    
+    
+    int s1,s2,s3;
+    scanf("%d %d %d",&s1,&s2,&s3);
+    
+    unsigned n1,n2,n3;
+    n1 = 1 << s1;
+    n2 = 1 << s2;
+    n3 = 1 << s3;
+    unsigned set1 = n1 ^ n2 ^ n3;
+    //printf("%u\n",set1);
+    //trans(set1);
+    int s4,s5,s6;
+    scanf("%d %d %d",&s4,&s5,&s6);
+    
+    unsigned n4,n5,n6;
+    n4 = 1 << s4;
+    n5 = 1 << s5;
+    n6 = 1 << s6;
+    unsigned set2 = n4 ^ n5 ^ n6 ^ set1;
+    //trans(set2);
+    int s7,s8,s9;
+    scanf("%d %d %d",&s7,&s8,&s9);
+    
+    unsigned n7,n8,n9;
+    n7 = 1 << s7;
+    n8 = 1 << s8;
+    n9 = 1 << s9;
+    unsigned set3 = n7 ^ n8 ^ n9;
+    int s10,s11,s12;
+    scanf("%d %d %d",&s10,&s11,&s12);
+    
+    unsigned n10,n11,n12;
+    n10 = 1 << s10;
+    n11 = 1 << s11;
+    n12 = 1 << s12;
+    unsigned set4 = n10 ^ n11 ^ n12;
+    //printf("set3 ||set4= %u\n",set3|set4);
+    unsigned set5 = ( set4 ^ (set3 | set4) );
+    //trans (set5);
+    int s13,s14,s15;
+    scanf("%d %d %d",&s13,&s14,&s15);
+    unsigned n13,n14,n15;
+    n13 = 1 << s13;
+    n14 = 1 << s14;
+    n15 = 1 << s15;
+    unsigned set6 = n13 + n14 + n15;
+    trans(set2);
+    trans (set5);
+    printf("%u",set6);
     return 0;
+    
+    
 }
