@@ -3,22 +3,22 @@
 void Maze::check()const{
     for(int i = 0; i < h; i++) {
         for(int j = 0; j < w; j++) {
-            cout << grid[i][j];
+            std::cout << grid[i][j];
         }
-        cout << endl;
+        std::cout << std::endl;
     }
 
     for(int i = 0; i < h; i++) {
         for(int j = 0; j < w; j++) {
-            cout << step[i][j] << " ";
+            std::cout << step[i][j] << " ";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
 
     for(int i = 0; i < h; i++) {
         for(int j = 0; j < w; j++) {
-            cout << map[i][j] << " ";
+            std::cout << map[i][j] << " ";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
 }

@@ -7,7 +7,6 @@ int Robot::check_move(const Maze test,const int direction){
     if (test.grid[ny][nx] != '#') {
         return direction;
     }
-    //direction = (direction + 1) % 4;
     return check_move(test,(direction + 1) % 4);
 }
 
@@ -15,8 +14,7 @@ void Robot::next_move(const Maze test){
     dir = check_move(test,dir);
 }
 
-bool Robot::Loop(const Maze test){
-    //cout << "map dir " << test.Read_Map(cur_x,cur_y) << endl;
+bool Robot::Loop(const Maze test)const{
     return (test.Read_Map(cur_x,cur_y) == dir);
 }
 void Robot::move(Maze &test ,const int stepcnt){
