@@ -65,31 +65,38 @@ int main()
                 break_the_loop = true;
                 cannot_esacple = true;
             }
-            for(int i=0 ; i<firequeuecnt ; i++){
-                pair<int,int> firepos = firequeue.front();
-                for(int j = 0 ; j < 4; j++){
-                    pair<int,int> firenewpos = make_pair(firepos.first+dir[j][0],firepos.second+dir[j][1]);
-                    if(in_range(firenewpos.first,firenewpos.second) && maze[firenewpos.first][firenewpos.second]=='.'){
-                        firequeue.push_back(firenewpos);
-                        maze[firenewpos.first][firenewpos.second] = 'F';
+            for(int i=0 ; i<max(firequeuecnt,playerqueuecnt) ; i++){
+                /// fire
+                if(i < firequeuecnt){
+                    pair<int,int> firepos = firequeue.front();
+                    for(int j = 0 ; j < 4; j++){
+                        pair<int,int> firenewpos = make_pair(firepos.first+dir[j][0],firepos.second+dir[j][1]);
+                        if(in_range(firenewpos.first,firenewpos.second) && maze[firenewpos.first][firenewpos.second]=='.'){
+                            firequeue.push_back(firenewpos);
+                            maze[firenewpos.first][firenewpos.second] = 'F';
+                        }
                     }
+                    pop_front(firequeue);
                 }
-                pop_front(firequeue);
-            }
-            
-            for(int i=0 ; i<playerqueuecnt ; i++){
-                pair<int,int> playerpos = playerqueue.front();
-                for(int j = 0 ; j < 4; j++){
-                    pair<int,int> playernewpos = make_pair(playerpos.first+dir[j][0],playerpos.second+dir[j][1]);
-                    if(!in_range(playernewpos.first,playernewpos.second))
-                        break_the_loop = true;
-                    else if(maze[playernewpos.first][playernewpos.second]=='.'){
-                        playerqueue.push_back(playernewpos);
-                        maze[playernewpos.first][playernewpos.second] = 'P';
+                /// end fire
+
+                /// player
+                if(i < playerqueuecnt){
+                    pair<int,int> playerpos = playerqueue.front();
+                    for(int j = 0 ; j < 4; j++){
+                        pair<int,int> playernewpos = make_pair(playerpos.first+dir[j][0],playerpos.second+dir[j][1]);
+                        if(!in_range(playernewpos.first,playernewpos.second))
+                            break_the_loop = true;
+                        else if(maze[playernewpos.first][playernewpos.second]=='.'){
+                            playerqueue.push_back(playernewpos);
+                            maze[playernewpos.first][playernewpos.second] = 'P';
+                        }
                     }
+                    pop_front(playerqueue);
                 }
-                pop_front(playerqueue);
+                /// end player
             }
+
             if(break_the_loop)
                 break;
             
