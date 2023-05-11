@@ -44,15 +44,9 @@ int main(){
         //cerr << input << endl;
         id++;
     }
-
     sort(inputs.begin(), inputs.end(), [](word a, word b){ return a.s_ < b.s_ ; });
-    // print input 
-        // for(word words : inputs)
-        //     cout << words.s_ << endl;
-    ///
     for(int i = 0 ; i < inputs.size()-1 ; ){
         if(inputs[i].s_ == inputs[i+1].s_){
-            //cout << "i = " << i << endl;
             int counter = 1;
             while (inputs[i+counter].s_ == inputs[i].s_)
             {
@@ -60,7 +54,6 @@ int main(){
                 tmp.erase(find_if(tmp.begin(),tmp.end(),[deleteId](word a){ return a.id_ == deleteId ;}));
                 counter ++;
             }
-            //cout << "counter = " << counter << endl;
             int deleteId = inputs[i].id_;
             tmp.erase(find_if(tmp.begin(),tmp.end(),[deleteId](word a){ return a.id_ == deleteId ;}));
             i+=counter;
@@ -70,10 +63,6 @@ int main(){
         }
     }
     sort(tmp.begin(),tmp.end(),[](word a,word b){ return a.s_ < b.s_ ;});
-
-    // print output 
-        for(word s : tmp)
-            cout << s.s_ << endl;
-    ///
-
+    for(word s : tmp)
+        cout << s.s_ << endl;
 }
